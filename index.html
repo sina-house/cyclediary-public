@@ -151,7 +151,8 @@ p { margin: 0; }
 .hero__meta { margin-top: 1.15rem; font-size: .9rem; color: var(--muted); }
 .hero__meta b { color: var(--ink); font-weight: 600; }
 
-/* the download button. `aria-disabled` and no href until there is an App Store link. */
+/* the download button. The `aria-disabled` rules below are dead since launch, kept so a
+   future pre-release page can reuse this stylesheet unchanged. */
 .cta {
   display: inline-flex; align-items: center; gap: .8rem;
   padding: 1.02rem 1.85rem; border-radius: 999px;
@@ -169,6 +170,20 @@ p { margin: 0; }
   border: 1px solid var(--line); font-weight: 600;
 }
 .cta--ghost:hover { background: var(--raise); box-shadow: none; }
+
+/* Apple's official "Download on the App Store" badge, used unaltered in the hero.
+   NOT called `.badge`: that class is already taken above by the hero eyebrow pill
+   ("A period tracker for iPhone"), and reusing it collapsed that pill's line-height to 0.
+   Rules from developer.apple.com/app-store/marketing/guidelines/:
+     - at least 40px tall onscreen; 52px here
+     - clear space of one quarter its height (13px) on every side, which the surrounding
+       flex `gap` of 16px/22.4px already exceeds
+     - never modified, angled or animated -- so, unlike .cta above, there is deliberately no
+       hover transform, no filter and no transition on this element
+     - one badge per layout, which is why the closing section uses a plain .cta link instead
+       of a second copy of the badge */
+.appstore-badge { display: inline-block; line-height: 0; }
+.appstore-badge img { height: 52px; width: auto; display: block; }
 
 /* Two panels side by side, staggered and tilted apart.
    They must NOT overlap: each App Store panel carries its own headline across the full
@@ -336,28 +351,22 @@ footer { border-top: 1px solid var(--hair); padding: 2.2rem 0 3rem; color: var(-
           <!-- ============================================================================
                THE APP STORE BUTTON
 
-               There is no App Store link yet, so this is deliberately inert: no `href`, and
-               `aria-disabled="true"` so screen readers announce it as unavailable.
+               Live since 31 August 2026. The URL is APPSTORE_URL at the top of this file,
+               reaching the template as the `appstore` placeholder here and again in the
+               closing section, so there is exactly one place to change it.
 
-               On launch day, replace the whole <a> below with:
+               This is Apple's official black badge, downloaded unaltered from
+               toolbox.marketingtools.apple.com and saved as `assets/app-store-badge.svg`
+               (119.66x40 native). Its sizing and clear-space rules are enforced in the
+               `.appstore-badge` CSS above -- read that comment before changing any of it.
 
-                 <a class="cta" href="https://apps.apple.com/app/idXXXXXXXXX">
-                   <svg ...the same glyph...></svg>
-                   Download on the App Store
-                 </a>
-
-               and do the same for the second copy of this button further down the page.
-               Better still, swap in Apple's official black badge artwork from
-               developer.apple.com/app-store/marketing/guidelines/ -- Apple asks that the
-               badge, not a home-made button, be used once an app is actually live.
+               Apple allows ONE badge per layout, so the closing section further down uses an
+               ordinary `.cta` pill reading "Open in the App Store" rather than a second copy of
+               this badge. Do not turn that one back into a badge.
                ============================================================================ -->
-          <a class="cta" aria-disabled="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 3.5v11.4"/><path d="m7.4 10.6 4.6 4.6 4.6-4.6"/>
-              <path d="M4.4 18.2v.9a2.4 2.4 0 0 0 2.4 2.4h10.4a2.4 2.4 0 0 0 2.4-2.4v-.9"/>
-            </svg>
-            Coming soon to the App&nbsp;Store
+          <a class="appstore-badge" href="https://apps.apple.com/app/id6804409992">
+            <img src="assets/app-store-badge.svg" width="156" height="52"
+                 alt="Download Cycle Diary on the App Store">
           </a>
           <a class="cta cta--ghost" href="#features">See what it does</a>
         </div>
@@ -428,17 +437,18 @@ footer { border-top: 1px solid var(--hair); padding: 2.2rem 0 3rem; color: var(-
   <section class="section close">
     <div class="wrap">
       <h2>Start your diary</h2>
-      <p class="lede">Cycle Diary is finished and on its way to the App Store. The link below goes
-        live the day it lands.</p>
+      <p class="lede">Cycle Diary is on the App Store now. Download it, give the short setup a
+        couple of minutes, and the calendar starts working out your rhythm from the first
+        period you enter.</p>
       <div class="hero__actions">
         <!-- second copy of the App Store button -- see the note on the first one -->
-        <a class="cta" aria-disabled="true">
+        <a class="cta" href="https://apps.apple.com/app/id6804409992">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M12 3.5v11.4"/><path d="m7.4 10.6 4.6 4.6 4.6-4.6"/>
             <path d="M4.4 18.2v.9a2.4 2.4 0 0 0 2.4 2.4h10.4a2.4 2.4 0 0 0 2.4-2.4v-.9"/>
           </svg>
-          Coming soon to the App&nbsp;Store
+          Open in the App&nbsp;Store
         </a>
       </div>
 
